@@ -7,11 +7,17 @@ import os
 from kafka import KafkaProducer
 import json
 import datetime
+import time
 
-producer = KafkaProducer(
-    bootstrap_servers='localhost:9092',
-    value_serializer=lambda v: json.dumps(v).encode('utf-8')
-)
+while True:
+    try:
+        producer = KafkaProducer(
+            bootstrap_servers='kafka:9092',
+            value_serializer=lambda v: json.dumps(v).encode('utf-8')
+        )
+        break
+    except Exception as e:
+        time.sleep(5)    
 
 folder_path = 'newusers'
 os.makedirs(folder_path, exist_ok=True)
